@@ -1,25 +1,24 @@
 'use client';
 
-import React from 'react';
-import { BarChart3, Clock, Box } from 'lucide-react';
+import Image from 'next/image';
 
 export function FeaturesSection() {
   const features = [
     {
       id: 1,
-      icon: BarChart3,
+      icon: <Image src='/icons/home/rectangle-barcode.png' alt='Rectangle Barcode' width={48} height={48} className='w-fit h-fit' />,
       title: 'Laser-Point Accuracy',
       description: 'Our 10.0mm tolerance eliminates striping issues, ensuring your machines run at max speed without interruption.',
     },
     {
       id: 2,
-      icon: Clock,
+      icon: <Image src='/icons/home/clock.png' alt='Clock' width={48} height={48} className='w-fit h-fit' />,
       title: 'Next-Day Tooling',
       description: 'Minimize downtime. Order standard configurations by 2:00 PM for next-day delivery.',
     },
     {
       id: 3,
-      icon: Box,
+      icon: <Image src='/icons/home/object-group.png' alt='Object Group' width={48} height={48} className='w-fit h-fit' />,
       title: 'CAD-Integrated Design',
       description: 'Upload your DWG or PDF, we optimize your layouts to ensure maximum material yield and zero waste.',
     },
@@ -52,17 +51,18 @@ export function FeaturesSection() {
         {features.map((feature) => {
           const Icon = feature.icon;
           return (
-            <div key={feature.id} className='bg-secondary rounded-[16px] p-5 sm:p-6 md:p-[32px] hover:shadow-lg transition-shadow duration-300 space-y-3 sm:space-y-[16px]'>
+            <div
+              key={feature.id}
+              className='bg-secondary rounded-[16px] p-5 sm:p-6 md:p-[32px] hover:shadow-lg transition-shadow duration-300 sm:space-y-[16px] lg:space-y-[32px]'
+            >
               {/* Icon */}
-              <div>
-                <Icon size={32} className='text-primary stroke-[1.5]' />
-              </div>
+              <div>{Icon}</div>
 
               {/* Title */}
-              <h3 className='text-lg sm:text-xl font-bold text-gray-900'>{feature.title}</h3>
+              <h3 className='text-lg sm:text-xl md:text-[26px] font-medium'>{feature.title}</h3>
 
               {/* Description */}
-              <p className='text-gray-700 text-sm leading-relaxed'>{feature.description}</p>
+              <p className='text-black/70 text-sm sm:text-base md:text-[21px] font-light leading-relaxed'>{feature.description}</p>
             </div>
           );
         })}

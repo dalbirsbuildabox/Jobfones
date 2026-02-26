@@ -72,11 +72,11 @@ export function OperationalConfidenceSection() {
 
                   <div className='flex flex-col gap-1 sm:gap-[6px] min-w-0'>
                     <div>
-                      <h4 className='text-gray-900 text-sm sm:text-[16px] font-[600]'>Michael R.</h4>
-                      <p className='text-muted-foreground text-xs sm:text-[14px] font-[300]'>Production Manager</p>
+                      <h4 className='text-sm sm:text-[16px] font-medium'>Michael R.</h4>
+                      <p className='text-black/70 text-xs sm:text-[13px] font-light '>Production Manager</p>
                     </div>
-                    <p className='text-muted-foreground text-xs sm:text-[13px] font-[300]'>
-                      "We've reduced our machine downtime by 89% this quarter"
+                    <p className='text-black/70 text-xs sm:text-[13px] font-light italic'>
+                      Job Formes has reduced our machine downtime by 15% this quarter.
                     </p>
                   </div>
                 </div>

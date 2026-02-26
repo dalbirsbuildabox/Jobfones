@@ -7,7 +7,7 @@ import { ProductRangeSection } from '../components/home/product-range-section';
 
 const HomeScreen = () => {
   return (
-    <div className="w-full overflow-x-hidden">
+    <div className='w-full overflow-x-hidden'>
       <HeroSection />
       <FeaturesSection />
       <OperationalConfidenceSection />
