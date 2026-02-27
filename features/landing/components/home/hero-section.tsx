@@ -42,10 +42,10 @@ export function HeroSection() {
               Request a Technical Quote
             </button>
             <button
-              className='cursor-pointer p-[20px] rounded-full bg-white hover:bg-gray-100 flex items-center justify-center text-primary transition shrink-0'
+              className='cursor-pointer w-[40px] md:w-[50px] xl:w-[73px] h-[40px] md:h-[50px] xl:h-[73px] rounded-full bg-white hover:bg-gray-100 flex items-center justify-center text-primary transition shrink-0'
               aria-label='Learn more'
             >
-              <Image src='/icons/home/arrow-up-right-primary.png' alt='Arrow Right' width={24} height={24} className='w-full h-full object-contain' />
+              <Image src='/icons/home/arrow-up-right-primary.png' alt='Arrow Right' width={28} height={28} className='w-fit h-fit' />
             </button>
           </div>
         </div>

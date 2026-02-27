@@ -15,7 +15,7 @@ const Header = () => {
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-20 w-full transition-colors duration-200 ${scrolled ? 'bg-black/20 backdrop-blur-sm' : ''}`}>
-      <div className='flex items-center justify-between gap-3 sm:gap-4 lg:gap-6 container mx-auto py-3 sm:py-4 lg:pt-[40px] lg:pb-[20px] px-4 sm:px-6'>
+      <div className='flex items-center justify-between gap-3 sm:gap-4 lg:gap-6 container mx-auto py-3 sm:py-4 px-4 sm:px-6'>
         {/* Logo */}
         <div className='flex items-center gap-2 sm:gap-[12px] shrink-0 min-w-0'>
           <div className='w-10 h-10 lg:w-[80px] lg:h-[80px] sm:w-[60px] sm:h-[60px] bg-primary rounded-full flex items-center justify-center shrink-0'>
