@@ -104,19 +104,30 @@ export function ProductRangeSection() {
         {/* Products Grid */}
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8 lg:gap-[48px]'>
           {products.map((product) => (
-            <div key={product.id} className='group relative h-[180px] sm:h-[220px] md:h-[300px] overflow-hidden rounded-2xl sm:rounded-[32px]'>
-              <Image
-                src={product.image || '/placeholder.svg'}
-                alt={product.name}
-                fill
-                className='object-cover transition-transform duration-300 group-hover:scale-105'
-                sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw'
-              />
-              {/* Dark Overlay */}
-              <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent' />
-              {/* Product Label */}
-              <div className='absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-[32px]'>
-                <p className='text-white text-base sm:text-lg md:text-[24px] font-[500] leading-relaxed'>{product.name}</p>
+            <div
+              key={product.id}
+              className='group relative h-[180px] sm:h-[220px] md:h-[300px] rounded-2xl sm:rounded-[32px] transition-[box-shadow] duration-300 hover:shadow-[0_0_0_2px_var(--primary),0_4px_32px_0_var(--primary)]'
+            >
+              <div className='absolute inset-0 overflow-hidden rounded-2xl sm:rounded-[32px]'>
+                <Image
+                  src={product.image || '/placeholder.svg'}
+                  alt={product.name}
+                  fill
+                  className='object-cover transition-transform duration-300 group-hover:scale-105'
+                  sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw'
+                />
+                {/* Dark Overlay */}
+                <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent' />
+                {/* Learn More - visible on hover only, upper right */}
+                <div className='absolute top-3 right-3 sm:top-4 sm:right-4 md:top-5 md:right-5 opacity-0 group-hover:opacity-100 transition-opacity duration-300'>
+                  <span className='cursor-pointer inline-block bg-white/95 hover:bg-white text-black text-sm sm:text-base font-medium px-3 py-2 sm:px-4 sm:py-2.5 rounded-lg sm:rounded-xl shadow-md'>
+                    Learn More
+                  </span>
+                </div>
+                {/* Product Label */}
+                <div className='absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-[32px]'>
+                  <p className='text-white text-base sm:text-lg md:text-[24px] font-[500] leading-relaxed'>{product.name}</p>
+                </div>
               </div>
             </div>
           ))}

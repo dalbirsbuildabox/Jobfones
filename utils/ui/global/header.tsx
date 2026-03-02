@@ -49,13 +49,13 @@ const Header = () => {
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-20 w-full transition-colors duration-200 ${scrolled ? 'bg-black/20 backdrop-blur-sm' : ''}`}>
-      <div className='flex items-center justify-between gap-3 sm:gap-4 lg:gap-6 container mx-auto py-3 sm:py-4 lg:py-5 px-4 sm:px-6'>
+      <div className='flex items-center justify-between gap-3 sm:gap-4 lg:gap-6 container mx-auto py-3 sm:py-4 px-4 sm:px-6'>
         {/* Logo */}
         <div className='flex items-center gap-2 sm:gap-[12px] shrink-0 min-w-0'>
-          <div className='w-10 h-10 sm:w-[60px] sm:h-[60px] bg-primary rounded-full flex items-center justify-center shrink-0'>
+          <div className='w-10 h-10 lg:w-[80px] lg:h-[80px] sm:w-[60px] sm:h-[60px] bg-primary rounded-full flex items-center justify-center shrink-0'>
             <span className='text-white font-bold text-2xl sm:text-[41px]'>J</span>
           </div>
-          <span className='text-white text-xl sm:text-[29px] truncate'>Job Formes</span>
+          <span className='text-white lg:text-[40px] sm:text-[29px] truncate'>Job Formes</span>
         </div>
 
         {/* Desktop Navigation - only from lg when there's room for all items in one line */}
@@ -79,11 +79,17 @@ const Header = () => {
           <button
             type='button'
             aria-label='Toggle menu'
-            className='lg:hidden w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition'
+            className='cursor-pointer lg:hidden w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition'
             onClick={() => setMobileMenuOpen((o) => !o)}
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
+<<<<<<< fix-home-uifixes
+          <button className='cursor-pointer hidden lg:flex bg-primary hover:bg-primary/80 text-white text-base xl:text-[20px] font-medium px-5 xl:px-[40px] py-3 xl:py-[20px] rounded-full transition shrink-0 whitespace-nowrap'>
+            Request a Technical Quote
+          </button>
+          <button className='cursor-pointer lg:hidden bg-primary hover:bg-primary/80 text-white text-sm font-medium px-4 py-2.5 rounded-full transition shrink-0'>
+=======
           <button
             onClick={() => router.push('/contact-us')}
             className='hidden lg:flex bg-primary hover:bg-primary/80 text-white text-base xl:text-[20px] font-medium px-5 xl:px-[40px] py-3 xl:py-[20px] rounded-full transition shrink-0 whitespace-nowrap'
@@ -94,6 +100,7 @@ const Header = () => {
             onClick={() => router.push('/contact-us')}
             className='lg:hidden bg-primary hover:bg-primary/80 text-white text-sm font-medium px-4 py-2.5 rounded-full transition shrink-0'
           >
+>>>>>>> develop-team
             Quote
           </button>
         </div>

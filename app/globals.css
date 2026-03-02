@@ -136,3 +136,27 @@
 .shadow-primary {
   box-shadow: 0 4px 32px 0 var(--primary);
 }
+
+.font-bold {
+  font-weight: 700 !important;
+}
+
+.font-semibold {
+  font-weight: 600 !important;
+}
+
+.font-medium {
+  font-weight: 500 !important;
+}
+
+.font-normal {
+  font-weight: 400 !important;
+}
+
+.font-light {
+  font-weight: 300 !important;
+}
+
+.font-thin {
+  font-weight: 200 !important;
+}
