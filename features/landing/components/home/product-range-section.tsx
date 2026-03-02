@@ -88,7 +88,7 @@ const products: Product[] = [
 
 export function ProductRangeSection() {
   return (
-    <section className='w-full bg-secondary py-10 sm:py-16 md:py-24'>
+    <section id='products' className='w-full bg-secondary py-10 sm:py-16 md:py-24 scroll-mt-24'>
       <div className='container mx-auto px-4 sm:px-6'>
         {/* Header Section */}
         <div className='text-center grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 mb-8 sm:mb-12 md:mb-16'>

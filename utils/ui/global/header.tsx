@@ -1,17 +1,51 @@
 'use client';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type MouseEvent } from 'react';
 import { Menu, X } from 'lucide-react';
-
+import { usePathname, useRouter } from 'next/navigation';
 const Header = () => {
+  const router = useRouter();
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  const scrollToIdWithRetry = (id: string, attemptsLeft = 12) => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+    if (attemptsLeft <= 0) return;
+    window.setTimeout(() => scrollToIdWithRetry(id, attemptsLeft - 1), 100);
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
+
+  useEffect(() => {
+    if (pathname !== '/') return;
+    if (typeof window === 'undefined') return;
+
+    if (window.location.hash === '#products') {
+      scrollToIdWithRetry('products');
+    }
+  }, [pathname]);
+
+  const onProductsClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    setMobileMenuOpen(false);
+
+    if (pathname === '/') {
+      window.history.replaceState(null, '', '#products');
+      scrollToIdWithRetry('products');
+      return;
+    }
+
+    router.push('/#products');
+  };
 
   return (
     <header className={`fixed top-0 left-0 right-0 z-20 w-full transition-colors duration-200 ${scrolled ? 'bg-black/20 backdrop-blur-sm' : ''}`}>
@@ -29,7 +63,7 @@ const Header = () => {
           <Link href='#home' className='text-black text-sm xl:text-[20px] font-light hover:text-primary transition whitespace-nowrap shrink-0'>
             Home
           </Link>
-          <Link href='#products' className='text-black text-sm xl:text-[20px] font-light hover:text-primary transition whitespace-nowrap shrink-0'>
+          <Link href='/#products' onClick={onProductsClick} className='text-black text-sm xl:text-[20px] font-light hover:text-primary transition whitespace-nowrap shrink-0'>
             Products
           </Link>
           <Link href='/about-us' className='text-black text-sm xl:text-[20px] font-light hover:text-primary transition whitespace-nowrap shrink-0'>
@@ -50,10 +84,23 @@ const Header = () => {
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
+<<<<<<< fix-home-uifixes
           <button className='cursor-pointer hidden lg:flex bg-primary hover:bg-primary/80 text-white text-base xl:text-[20px] font-medium px-5 xl:px-[40px] py-3 xl:py-[20px] rounded-full transition shrink-0 whitespace-nowrap'>
             Request a Technical Quote
           </button>
           <button className='cursor-pointer lg:hidden bg-primary hover:bg-primary/80 text-white text-sm font-medium px-4 py-2.5 rounded-full transition shrink-0'>
+=======
+          <button
+            onClick={() => router.push('/contact-us')}
+            className='hidden lg:flex bg-primary hover:bg-primary/80 text-white text-base xl:text-[20px] font-medium px-5 xl:px-[40px] py-3 xl:py-[20px] rounded-full transition shrink-0 whitespace-nowrap'
+          >
+            Request a Technical Quote
+          </button>
+          <button
+            onClick={() => router.push('/contact-us')}
+            className='lg:hidden bg-primary hover:bg-primary/80 text-white text-sm font-medium px-4 py-2.5 rounded-full transition shrink-0'
+          >
+>>>>>>> develop-team
             Quote
           </button>
         </div>
@@ -73,9 +120,9 @@ const Header = () => {
             Home
           </Link>
           <Link
-            href='#products'
+            href='/#products'
             className='text-black text-lg font-light hover:text-primary transition py-2 px-3 rounded-lg hover:bg-secondary'
-            onClick={() => setMobileMenuOpen(false)}
+            onClick={onProductsClick}
           >
             Products
           </Link>
