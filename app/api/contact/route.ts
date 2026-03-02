@@ -1,13 +1,16 @@
 import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import Mailgun from 'mailgun.js';
+import formData from 'form-data';
 
-const OWNER_EMAIL = process.env.CONTACT_OWNER_EMAIL || process.env.SMTP_FROM;
-const SMTP_HOST = process.env.SMTP_HOST;
-const SMTP_PORT = parseInt(process.env.SMTP_PORT || '587', 10);
-const SMTP_USER = process.env.SMTP_USER;
-const SMTP_PASS = process.env.SMTP_PASS;
-const SMTP_FROM = process.env.SMTP_FROM || 'noreply@jobformes.com.au';
+const OWNER_EMAIL = process.env.CONTACT_OWNER_EMAIL;
+const MAILGUN_API_KEY = process.env.MAILGUN_API_KEY;
+const MAILGUN_DOMAIN = process.env.MAILGUN_DOMAIN;
+const MAILGUN_FROM = process.env.MAILGUN_FROM || 'noreply@jobformes.com.au';
 const SITE_NAME = process.env.SITE_NAME || 'Job Formes';
+const SITE_URL = process.env.SITE_URL || 'https://jobformes.com.au';
+const CONTACT_PHONE = process.env.CONTACT_PHONE || '+1 (000) 000 0000';
+const CONTACT_EMAIL = process.env.CONTACT_EMAIL || 'orders@jobformes.com.au';
+const RESPONSE_TIME = process.env.CONTACT_RESPONSE_TIME || '24–48 hours';
 
 export async function POST(request: Request) {
   try {
@@ -21,8 +24,8 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) {
-      console.error('Missing SMTP config: SMTP_HOST, SMTP_USER, SMTP_PASS');
+    if (!MAILGUN_API_KEY || !MAILGUN_DOMAIN) {
+      console.error('Missing Mailgun config: MAILGUN_API_KEY, MAILGUN_DOMAIN');
       return NextResponse.json(
         { success: false, error: 'Email service is not configured.' },
         { status: 503 }
@@ -30,70 +33,132 @@ export async function POST(request: Request) {
     }
 
     if (!OWNER_EMAIL) {
-      console.error('Missing CONTACT_OWNER_EMAIL or SMTP_FROM');
+      console.error('Missing CONTACT_OWNER_EMAIL');
       return NextResponse.json(
         { success: false, error: 'Owner email is not configured.' },
         { status: 503 }
       );
     }
 
-    const transporter = nodemailer.createTransport({
-      host: SMTP_HOST,
-      port: SMTP_PORT,
-      secure: SMTP_PORT === 465,
-      auth: {
-        user: SMTP_USER,
-        pass: SMTP_PASS,
-      },
+    const mailgun = new Mailgun(formData);
+    const mg = mailgun.client({
+      username: 'api',
+      key: MAILGUN_API_KEY!,
     });
+
+    const sendMailgunEmail = async (options: {
+      to: string;
+      subject: string;
+      text: string;
+      html?: string;
+      replyTo?: string;
+    }) => {
+      const { to, subject, text, html, replyTo } = options;
+
+      await mg.messages.create(MAILGUN_DOMAIN!, {
+        from: `"${SITE_NAME}" <${MAILGUN_FROM}>`,
+        to,
+        subject,
+        text,
+        html,
+        ...(replyTo ? { 'h:Reply-To': replyTo } : {}),
+      });
+    };
 
     const fullName = `${firstName} ${lastName}`.trim();
+    const formSubject = 'Request a Technical Quote';
 
-    // 1. Confirmation email to the person who submitted the form
+    // 1. Confirmation email to the user (sent after they submit the form)
+    const confirmationText = `Dear ${fullName},
+
+Thank you for contacting us! We have successfully received your message and our team is currently reviewing it. We truly appreciate you taking the time to reach out to us.
+
+Here are the details we received:
+
+Name: ${fullName}
+Email: ${email}
+Subject: ${formSubject}
+Message: ${message}
+
+Our team will get back to you within ${RESPONSE_TIME}. If your matter is urgent, please feel free to contact us directly at ${CONTACT_PHONE}.
+
+Thank you for choosing us. We look forward to assisting you!
+
+Best regards,
+${SITE_NAME}
+${SITE_URL}
+${CONTACT_EMAIL} | ${CONTACT_PHONE}`;
+
     const confirmationHtml = `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #ef6400;">Thank you for contacting ${SITE_NAME}</h2>
-        <p>Hi ${firstName},</p>
-        <p>We've received your message and will get back to you as soon as possible.</p>
-        <p><strong>Your message:</strong></p>
-        <blockquote style="border-left: 4px solid #ef6400; padding-left: 1rem; margin: 1rem 0; color: #555;">
-          ${message.replace(/\n/g, '<br />')}
-        </blockquote>
-        <p>If you have any urgent questions, you can reach us at orders@jobformes.com.au or by phone.</p>
-        <p>Best regards,<br /><strong>${SITE_NAME} Team</strong></p>
+        <p>Dear ${fullName},</p>
+        <p>Thank you for contacting us! We have successfully received your message and our team is currently reviewing it. We truly appreciate you taking the time to reach out to us.</p>
+        <p><strong>Here are the details we received:</strong></p>
+        <ul style="color: #333;">
+          <li><strong>Name:</strong> ${fullName}</li>
+          <li><strong>Email:</strong> ${email}</li>
+          <li><strong>Subject:</strong> ${formSubject}</li>
+          <li><strong>Message:</strong></li>
+        </ul>
+        <blockquote style="border-left: 4px solid #ef6400; padding-left: 1rem; margin: 0.5rem 0 1rem; color: #555;">${message.replace(/\n/g, '<br />')}</blockquote>
+        <p>Our team will get back to you within ${RESPONSE_TIME}. If your matter is urgent, please feel free to contact us directly at <a href="tel:${CONTACT_PHONE}">${CONTACT_PHONE}</a>.</p>
+        <p>Thank you for choosing us. We look forward to assisting you!</p>
+        <p>Best regards,<br /><strong>${SITE_NAME}</strong><br />${SITE_URL}<br />${CONTACT_EMAIL} | ${CONTACT_PHONE}</p>
       </div>
     `;
 
-    await transporter.sendMail({
-      from: `"${SITE_NAME}" <${SMTP_FROM}>`,
+    await sendMailgunEmail({
       to: email,
-      subject: `We've received your message - ${SITE_NAME}`,
+      subject: "We've Received Your Message - Thank You!",
       html: confirmationHtml,
-      text: `Hi ${firstName},\n\nWe've received your message and will get back to you soon.\n\nYour message:\n${message}\n\nBest regards,\n${SITE_NAME} Team`,
+      text: confirmationText,
     });
 
-    // 2. Notification email to the owner
+    // 2. Notification email to admin / website owner (sent when a new query is received)
+    const ownerText = `Hello,
+
+You have received a new message through the Contact Us form on your website.
+
+Here are the details:
+
+Name: ${fullName}
+Email: ${email}
+Phone: ${phone}
+Subject: ${formSubject}
+Message: ${message}
+
+Please respond to the user as soon as possible.
+
+This is an automated notification email.
+
+Best regards,
+${SITE_NAME}`;
+
     const ownerHtml = `
       <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #ef6400;">New contact form submission</h2>
-        <p><strong>From:</strong> ${fullName}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${phone}</p>
-        <p><strong>Message:</strong></p>
-        <blockquote style="border-left: 4px solid #ef6400; padding-left: 1rem; margin: 1rem 0; color: #555;">
-          ${message.replace(/\n/g, '<br />')}
-        </blockquote>
-        <p><em>Sent via ${SITE_NAME} contact form</em></p>
+        <p>Hello,</p>
+        <p>You have received a new message through the Contact Us form on your website.</p>
+        <p><strong>Here are the details:</strong></p>
+        <ul style="color: #333;">
+          <li><strong>Name:</strong> ${fullName}</li>
+          <li><strong>Email:</strong> ${email}</li>
+          <li><strong>Phone:</strong> ${phone}</li>
+          <li><strong>Subject:</strong> ${formSubject}</li>
+          <li><strong>Message:</strong></li>
+        </ul>
+        <blockquote style="border-left: 4px solid #ef6400; padding-left: 1rem; margin: 0.5rem 0 1rem; color: #555;">${message.replace(/\n/g, '<br />')}</blockquote>
+        <p>Please respond to the user as soon as possible.</p>
+        <p><em>This is an automated notification email.</em></p>
+        <p>Best regards,<br /><strong>${SITE_NAME}</strong></p>
       </div>
     `;
 
-    await transporter.sendMail({
-      from: `"${SITE_NAME} Contact" <${SMTP_FROM}>`,
+    await sendMailgunEmail({
       to: OWNER_EMAIL,
       replyTo: email,
       subject: `New contact: ${fullName} - ${SITE_NAME}`,
       html: ownerHtml,
-      text: `New contact from ${fullName}\nEmail: ${email}\nPhone: ${phone}\n\nMessage:\n${message}`,
+      text: ownerText,
     });
 
     return NextResponse.json({ success: true, message: 'Thank you. We have received your message.' });
