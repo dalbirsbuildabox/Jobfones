@@ -60,10 +60,14 @@ const Header = () => {
 
         {/* Desktop Navigation - only from lg when there's room for all items in one line */}
         <nav className='hidden flex-1 lg:flex justify-between items-center flex-nowrap gap-4 xl:gap-[20px] bg-white rounded-full py-3 px-4 xl:py-[24px] xl:px-[50px] shadow-primary max-w-xl xl:max-w-2xl mx-auto shrink min-w-0'>
-          <Link href='#home' className='text-black text-sm xl:text-[20px] font-light hover:text-primary transition whitespace-nowrap shrink-0'>
+          <Link href='/' className='text-black text-sm xl:text-[20px] font-light hover:text-primary transition whitespace-nowrap shrink-0'>
             Home
           </Link>
-          <Link href='/#products' onClick={onProductsClick} className='text-black text-sm xl:text-[20px] font-light hover:text-primary transition whitespace-nowrap shrink-0'>
+          <Link
+            href='/#products'
+            onClick={onProductsClick}
+            className='text-black text-sm xl:text-[20px] font-light hover:text-primary transition whitespace-nowrap shrink-0'
+          >
             Products
           </Link>
           <Link href='/about-us' className='text-black text-sm xl:text-[20px] font-light hover:text-primary transition whitespace-nowrap shrink-0'>
@@ -84,23 +88,16 @@ const Header = () => {
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
-<<<<<<< fix-home-uifixes
-          <button className='cursor-pointer hidden lg:flex bg-primary hover:bg-primary/80 text-white text-base xl:text-[20px] font-medium px-5 xl:px-[40px] py-3 xl:py-[20px] rounded-full transition shrink-0 whitespace-nowrap'>
-            Request a Technical Quote
-          </button>
-          <button className='cursor-pointer lg:hidden bg-primary hover:bg-primary/80 text-white text-sm font-medium px-4 py-2.5 rounded-full transition shrink-0'>
-=======
           <button
             onClick={() => router.push('/contact-us')}
-            className='hidden lg:flex bg-primary hover:bg-primary/80 text-white text-base xl:text-[20px] font-medium px-5 xl:px-[40px] py-3 xl:py-[20px] rounded-full transition shrink-0 whitespace-nowrap'
+            className='cursor-pointer hidden lg:flex bg-primary hover:bg-primary/80 text-white text-base xl:text-[20px] font-medium px-5 xl:px-[40px] py-3 xl:py-[20px] rounded-full transition shrink-0 whitespace-nowrap'
           >
             Request a Technical Quote
           </button>
           <button
             onClick={() => router.push('/contact-us')}
-            className='lg:hidden bg-primary hover:bg-primary/80 text-white text-sm font-medium px-4 py-2.5 rounded-full transition shrink-0'
+            className='cursor-pointer lg:hidden bg-primary hover:bg-primary/80 text-white text-sm font-medium px-4 py-2.5 rounded-full transition shrink-0'
           >
->>>>>>> develop-team
             Quote
           </button>
         </div>

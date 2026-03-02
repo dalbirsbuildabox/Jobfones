@@ -129,7 +129,7 @@ export function Footer() {
             <a href='#' className='text-secondary font-[300] hover:text-primary transition-colors text-sm sm:text-[20px] underline'>
               Privacy Policy
             </a>
-            <a href='#' className='text-secondary font-[300] hover:text-primary transition-colors text-sm sm:text-[20px] underline'>
+            <a href='/terms' className='text-secondary font-[300] hover:text-primary transition-colors text-sm sm:text-[20px] underline'>
               Terms & Conditions
             </a>
           </div>

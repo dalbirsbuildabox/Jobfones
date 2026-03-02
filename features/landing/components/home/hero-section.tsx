@@ -1,11 +1,10 @@
 'use client';
 
-import React from 'react';
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export function HeroSection() {
+  const router = useRouter();
   return (
     <section className='relative w-full h-screen overflow-hidden bg-black'>
       {/* Video Background */}
@@ -38,7 +37,10 @@ export function HeroSection() {
 
           {/* CTA Buttons */}
           <div className='flex flex-wrap items-center'>
-            <button className='cursor-pointer hidden lg:flex bg-primary hover:bg-primary/80 text-white text-base xl:text-[20px] font-medium px-5 xl:px-[40px] py-3 xl:py-[20px] rounded-full transition shrink-0 whitespace-nowrap'>
+            <button
+              onClick={() => router.push('/contact-us')}
+              className='cursor-pointer hidden lg:flex bg-primary hover:bg-primary/80 text-white text-base xl:text-[20px] font-medium px-5 xl:px-[40px] py-3 xl:py-[20px] rounded-full transition shrink-0 whitespace-nowrap'
+            >
               Request a Technical Quote
             </button>
             <button
