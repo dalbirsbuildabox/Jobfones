@@ -107,16 +107,16 @@ export function Footer() {
             </a>
           </div>
           <div className='flex flex-wrap justify-center sm:justify-end gap-4 sm:gap-8'>
-            <a href='#' className='text-secondary font-[400] hover:text-primary transition-colors text-sm sm:text-[20px]'>
+            <a href='/' className='text-secondary font-[400] hover:text-primary transition-colors text-sm sm:text-[20px]'>
               Home
             </a>
-            <a href='#' className='text-secondary font-[400] hover:text-primary transition-colors text-sm sm:text-[20px]'>
+            <a href='/#products' className='text-secondary font-[400] hover:text-primary transition-colors text-sm sm:text-[20px]'>
               Products
             </a>
-            <a href='#' className='text-secondary font-[400] hover:text-primary transition-colors text-sm sm:text-[20px]'>
+            <a href='/about-us' className='text-secondary font-[400] hover:text-primary transition-colors text-sm sm:text-[20px]'>
               About Us
             </a>
-            <a href='#' className='text-secondary font-[400] hover:text-primary transition-colors text-sm sm:text-[20px]'>
+            <a href='/contact-us' className='text-secondary font-[400] hover:text-primary transition-colors text-sm sm:text-[20px]'>
               Contact Us
             </a>
           </div>
@@ -126,7 +126,7 @@ export function Footer() {
           {/* Copyright */}
           <p className='text-secondary font-[300] transition-colors text-sm sm:text-[20px] text-center sm:text-left'>© Job Formes 2026</p>
           <div className='flex gap-4 sm:gap-6 flex-wrap justify-center sm:justify-end'>
-            <a href='#' className='text-secondary font-[300] hover:text-primary transition-colors text-sm sm:text-[20px] underline'>
+            <a href='/privacy-policy' className='text-secondary font-[300] hover:text-primary transition-colors text-sm sm:text-[20px] underline'>
               Privacy Policy
             </a>
             <a href='/terms' className='text-secondary font-[300] hover:text-primary transition-colors text-sm sm:text-[20px] underline'>

@@ -47,7 +47,7 @@ export function HeroSection() {
               className='cursor-pointer w-[40px] md:w-[50px] xl:w-[73px] h-[40px] md:h-[50px] xl:h-[73px] rounded-full bg-white hover:bg-gray-100 flex items-center justify-center text-primary transition shrink-0'
               aria-label='Learn more'
             >
-              <Image src='/icons/home/arrow-up-right-primary.png' alt='Arrow Right' width={28} height={28} className='w-fit h-fit' />
+              <Image src='/icons/home/arrow-up-right-primary.png' alt='Arrow Right' width={28} height={28} className='w-3 h-3 xl:w-4 xl:h-4' />
             </button>
           </div>
         </div>
