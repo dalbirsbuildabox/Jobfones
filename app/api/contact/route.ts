@@ -1,12 +1,11 @@
 import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import Mailgun from 'mailgun.js';
+import formData from 'form-data';
 
-const OWNER_EMAIL = process.env.CONTACT_OWNER_EMAIL || process.env.SMTP_FROM;
-const SMTP_HOST = process.env.SMTP_HOST;
-const SMTP_PORT = parseInt(process.env.SMTP_PORT || '587', 10);
-const SMTP_USER = process.env.SMTP_USER;
-const SMTP_PASS = process.env.SMTP_PASS;
-const SMTP_FROM = process.env.SMTP_FROM || 'noreply@jobformes.com.au';
+const OWNER_EMAIL = process.env.CONTACT_OWNER_EMAIL;
+const MAILGUN_API_KEY = process.env.MAILGUN_API_KEY;
+const MAILGUN_DOMAIN = process.env.MAILGUN_DOMAIN;
+const MAILGUN_FROM = process.env.MAILGUN_FROM || 'noreply@jobformes.com.au';
 const SITE_NAME = process.env.SITE_NAME || 'Job Formes';
 const SITE_URL = process.env.SITE_URL || 'https://jobformes.com.au';
 const CONTACT_PHONE = process.env.CONTACT_PHONE || '+1 (000) 000 0000';
@@ -25,8 +24,8 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!SMTP_HOST || !SMTP_USER || !SMTP_PASS) {
-      console.error('Missing SMTP config: SMTP_HOST, SMTP_USER, SMTP_PASS');
+    if (!MAILGUN_API_KEY || !MAILGUN_DOMAIN) {
+      console.error('Missing Mailgun config: MAILGUN_API_KEY, MAILGUN_DOMAIN');
       return NextResponse.json(
         { success: false, error: 'Email service is not configured.' },
         { status: 503 }
@@ -34,22 +33,37 @@ export async function POST(request: Request) {
     }
 
     if (!OWNER_EMAIL) {
-      console.error('Missing CONTACT_OWNER_EMAIL or SMTP_FROM');
+      console.error('Missing CONTACT_OWNER_EMAIL');
       return NextResponse.json(
         { success: false, error: 'Owner email is not configured.' },
         { status: 503 }
       );
     }
 
-    const transporter = nodemailer.createTransport({
-      host: SMTP_HOST,
-      port: SMTP_PORT,
-      secure: SMTP_PORT === 465,
-      auth: {
-        user: SMTP_USER,
-        pass: SMTP_PASS,
-      },
+    const mailgun = new Mailgun(formData);
+    const mg = mailgun.client({
+      username: 'api',
+      key: MAILGUN_API_KEY!,
     });
+
+    const sendMailgunEmail = async (options: {
+      to: string;
+      subject: string;
+      text: string;
+      html?: string;
+      replyTo?: string;
+    }) => {
+      const { to, subject, text, html, replyTo } = options;
+
+      await mg.messages.create(MAILGUN_DOMAIN!, {
+        from: `"${SITE_NAME}" <${MAILGUN_FROM}>`,
+        to,
+        subject,
+        text,
+        html,
+        ...(replyTo ? { 'h:Reply-To': replyTo } : {}),
+      });
+    };
 
     const fullName = `${firstName} ${lastName}`.trim();
     const formSubject = 'Request a Technical Quote';
@@ -93,8 +107,7 @@ ${CONTACT_EMAIL} | ${CONTACT_PHONE}`;
       </div>
     `;
 
-    await transporter.sendMail({
-      from: `"${SITE_NAME}" <${SMTP_FROM}>`,
+    await sendMailgunEmail({
       to: email,
       subject: "We've Received Your Message - Thank You!",
       html: confirmationHtml,
@@ -140,8 +153,7 @@ ${SITE_NAME}`;
       </div>
     `;
 
-    await transporter.sendMail({
-      from: `"${SITE_NAME} Contact" <${SMTP_FROM}>`,
+    await sendMailgunEmail({
       to: OWNER_EMAIL,
       replyTo: email,
       subject: `New contact: ${fullName} - ${SITE_NAME}`,
