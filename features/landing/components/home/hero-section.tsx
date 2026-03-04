@@ -1,11 +1,10 @@
 'use client';
 
-import React from 'react';
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export function HeroSection() {
+  const router = useRouter();
   return (
     <section className='relative w-full h-screen overflow-hidden bg-black'>
       {/* Video Background */}
@@ -38,14 +37,17 @@ export function HeroSection() {
 
           {/* CTA Buttons */}
           <div className='flex flex-wrap items-center'>
-            <button className='cursor-pointer hidden lg:flex bg-primary hover:bg-primary/80 text-white text-base xl:text-[20px] font-medium px-5 xl:px-[40px] py-3 xl:py-[20px] rounded-full transition shrink-0 whitespace-nowrap'>
+            <button
+              onClick={() => router.push('/contact-us')}
+              className='cursor-pointer hidden lg:flex bg-primary hover:bg-primary/80 text-white text-base xl:text-[20px] font-medium px-5 xl:px-[40px] py-3 xl:py-[20px] rounded-full transition shrink-0 whitespace-nowrap'
+            >
               Request a Technical Quote
             </button>
             <button
               className='cursor-pointer w-[40px] md:w-[50px] xl:w-[73px] h-[40px] md:h-[50px] xl:h-[73px] rounded-full bg-white hover:bg-gray-100 flex items-center justify-center text-primary transition shrink-0'
               aria-label='Learn more'
             >
-              <Image src='/icons/home/arrow-up-right-primary.png' alt='Arrow Right' width={28} height={28} className='w-fit h-fit' />
+              <Image src='/icons/home/arrow-up-right-primary.png' alt='Arrow Right' width={28} height={28} className='w-3 h-3 xl:w-4 xl:h-4' />
             </button>
           </div>
         </div>

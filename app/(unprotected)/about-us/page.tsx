@@ -4,9 +4,9 @@ import AboutScreen from '@/features/landing/screens/about.screen';
 
 const AboutUsPage = () => {
   return (
-    <div className='pt-[88px] sm:pt-[150px]'>
+    <div className='pt-[88px] lg:pt-[200px]'>
       <div className='min-h-[50vh] place-content-center'>
-        <GradientHeading>ABOUT US</GradientHeading>
+        <GradientHeading textSize='text-[120px] lg:text-[200px] xl:text-[260px]'>ABOUT US</GradientHeading>
         <AboutScreen />
       </div>
     </div>
