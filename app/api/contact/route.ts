@@ -18,26 +18,17 @@ export async function POST(request: Request) {
     const { firstName, lastName, email, phone, message } = body;
 
     if (!firstName?.trim() || !lastName?.trim() || !email?.trim() || !phone?.trim() || !message?.trim()) {
-      return NextResponse.json(
-        { success: false, error: 'All fields are required.' },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, error: 'All fields are required.' }, { status: 400 });
     }
 
     if (!MAILGUN_API_KEY || !MAILGUN_DOMAIN) {
       console.error('Missing Mailgun config: MAILGUN_API_KEY, MAILGUN_DOMAIN');
-      return NextResponse.json(
-        { success: false, error: 'Email service is not configured.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ success: false, error: 'Email service is not configured.' }, { status: 503 });
     }
 
     if (!OWNER_EMAIL) {
       console.error('Missing CONTACT_OWNER_EMAIL');
-      return NextResponse.json(
-        { success: false, error: 'Owner email is not configured.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ success: false, error: 'Owner email is not configured.' }, { status: 503 });
     }
 
     const mailgun = new Mailgun(formData);
@@ -46,13 +37,7 @@ export async function POST(request: Request) {
       key: MAILGUN_API_KEY!,
     });
 
-    const sendMailgunEmail = async (options: {
-      to: string;
-      subject: string;
-      text: string;
-      html?: string;
-      replyTo?: string;
-    }) => {
+    const sendMailgunEmail = async (options: { to: string; subject: string; text: string; html?: string; replyTo?: string }) => {
       const { to, subject, text, html, replyTo } = options;
 
       await mg.messages.create(MAILGUN_DOMAIN!, {
@@ -164,9 +149,6 @@ ${SITE_NAME}`;
     return NextResponse.json({ success: true, message: 'Thank you. We have received your message.' });
   } catch (err) {
     console.error('Contact API error:', err);
-    return NextResponse.json(
-      { success: false, error: 'Failed to send your message. Please try again or email us directly.' },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: 'Failed to send your message. Please try again or email us directly.' }, { status: 500 });
   }
 }
