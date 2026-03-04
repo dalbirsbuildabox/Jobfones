@@ -13,13 +13,7 @@ export type FeaturesSectionData = {
   features: Feature[];
 };
 
-export function FeaturesSection({
-  isBgSecondary,
-  features: sectionData,
-}: {
-  isBgSecondary?: boolean;
-  features: FeaturesSectionData;
-}) {
+export function FeaturesSection({ isBgSecondary, features: sectionData }: { isBgSecondary?: boolean; features: FeaturesSectionData }) {
   return (
     <section className={`w-full ${isBgSecondary ? 'bg-secondary' : 'bg-white'}`}>
       {/* Header and Content Grid */}
