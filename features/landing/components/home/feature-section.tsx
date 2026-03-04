@@ -1,7 +1,5 @@
 'use client';
 
-import Image from 'next/image';
-
 interface Feature {
   id: number;
   icon: React.ReactNode;
@@ -9,33 +7,36 @@ interface Feature {
   description: string;
 }
 
-export function FeaturesSection({ isBgSecondary, features }: { isBgSecondary?: boolean; features: Feature[] }) {
+export type FeaturesSectionData = {
+  title: React.ReactNode;
+  description: string;
+  features: Feature[];
+};
+
+export function FeaturesSection({
+  isBgSecondary,
+  features: sectionData,
+}: {
+  isBgSecondary?: boolean;
+  features: FeaturesSectionData;
+}) {
   return (
     <section className={`w-full ${isBgSecondary ? 'bg-secondary' : 'bg-white'}`}>
       {/* Header and Content Grid */}
       <div className='py-12 sm:py-20 md:py-28 container mx-auto px-4 sm:px-6'>
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 mb-10 sm:mb-16'>
           {/* Left Column - Heading and Description */}
-          <div className='place-content-end'>
-            <h2 className='text-3xl sm:text-4xl md:text-5xl lg:text-[60px] font-bold mb-4 sm:mb-6 leading-tight'>
-              Engineered for
-              <br />
-              <span className='text-primary'>Performance.</span>
-            </h2>
-          </div>
+          <div className='place-content-end'>{sectionData.title}</div>
 
           {/* Right Column - Empty for spacing in two-column layout */}
           <div className='place-content-center'>
-            <p className='font-[300] text-sm sm:text-base md:text-lg lg:text-[22px] leading-relaxed'>
-              Beyond just making dies, we optimize your production. Job Formes combines ultra-precise tolerances with rapid turnaround to keep your
-              machines running at peak efficiency.
-            </p>
+            <p className='font-light text-sm sm:text-base md:text-lg lg:text-[22px] leading-relaxed'>{sectionData.description}</p>
           </div>
         </div>
 
         {/* Features Grid */}
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6'>
-          {features?.map((feature) => {
+          {sectionData.features.map((feature: Feature) => {
             const Icon = feature.icon;
             return (
               <div

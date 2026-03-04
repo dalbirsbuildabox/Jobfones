@@ -15,7 +15,7 @@ export function EngineeringSection() {
 
             <div className='space-y-[20px] text-foreground'>
               <p className='text-base md:text-[22px] font-[300] leading-relaxed'>
-                At JOD Formes, we design and manufacture high-performance cutting forms for the packaging and print industry. Our focus is simple:
+                At JOB Formes, we design and manufacture high-performance cutting forms for the packaging and print industry. Our focus is simple:
                 precision, reliability, and production efficiency.
               </p>
 
