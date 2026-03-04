@@ -1,6 +1,5 @@
 'use client';
 
-import { Package, Layers, Package2 } from 'lucide-react';
 import Image from 'next/image';
 
 export function IndustryPrecisionSection() {
@@ -18,7 +17,7 @@ export function IndustryPrecisionSection() {
         'Built for impact. Our tooling for point-of-sale displays and containers is designed to handle heavy flowing while maintaining structural integrity and crisp edges.',
     },
     {
-      image: '/images/landing/home/ip-2.png',
+      image: '/images/landing/home/ip-3.png',
       title: 'Gaskets & Industrial Beyond Paper & Board.',
       description:
         'Custom cutting solutions for non-traditional materials. We provide precision tooling for foam, rubber, plastics, and technical textiles, ensuring clean seals and exact dimensions.',
@@ -46,7 +45,7 @@ export function IndustryPrecisionSection() {
               <div key={index} className='flex flex-col items-center text-center space-y-3 sm:space-y-[16px]'>
                 {/* Icon Container */}
                 <div className='relative w-24 h-24 sm:w-[135px] sm:h-[135px] rounded-lg overflow-hidden shrink-0'>
-                  <Image src={industry.image} alt={industry.title} width={500} height={500} className='w-[135px] h-full' />
+                  <Image src={industry.image} alt={industry.title} width={500} height={500} className='w-full h-full object-cover' />
                 </div>
 
                 {/* Title */}

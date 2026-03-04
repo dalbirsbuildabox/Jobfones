@@ -13,7 +13,8 @@ const features = {
       <span className='text-primary'>Performance.</span>
     </h2>
   ),
-  description: 'Beyond just making dies, we optimize your production. Job Formes combines ultra-precise tolerances with rapid turnaround to keep your machines running at peak efficiency.',
+  description:
+    'Beyond just making dies, we optimize your production. Job Formes combines ultra-precise tolerances with rapid turnaround to keep your machines running at peak efficiency.',
   features: [
     {
       id: 1,
